@@ -1,0 +1,32 @@
+[Unit]
+Description=zookeeper observer service unit
+After=skydns2.service
+Wants=zkob1-presence@%i.service
+
+[Service]
+Restart=always
+RestartSec=15
+TimeoutSec=120
+EnvironmentFile=/etc/environment
+Environment="DOMAIN_NAME=cluster.duffqiu.org"
+Environment="HUBID=1"
+ExecStartPre=-/usr/bin/docker kill zkob-${HUBID}-%i
+ExecStartPre=-/usr/bin/docker rm  zkob-${HUBID}-%i
+ExecStartPre=-/usr/bin/docker pull duffqiu/zk-observer:latest
+ExecStart=/usr/bin/docker run  \
+                              --name zkob-${HUBID}-%i \
+                              -e ZK_SERVER_ID=%i \
+                              -e ZKZK_HUB_ID=${HUBID} \
+                              --hostname zookeeper-%i.${DOMAIN_NAME} \
+                              --dns-search ${DOMAIN_NAME} \
+                              --dns ${COREOS_PRIVATE_IPV4} \
+                              -p ${COREOS_PRIVATE_IPV4}:21810:21810 \
+                              -p ${COREOS_PRIVATE_IPV4}:28880:28880 \
+                              -p ${COREOS_PRIVATE_IPV4}:38880:38880 \
+                              -v /mirror/zkob${HUBID}/%i/data:/zookeeper/data \
+                              duffqiu/zk-observer:latest
+ExecStop=-/usr/bin/docker stop zkob-${HUBID}-%i
+
+[X-Fleet]
+X-Conflicts=zkob1@*.service
+MachineMetadata=role=back

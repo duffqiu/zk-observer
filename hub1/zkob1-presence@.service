@@ -1,0 +1,22 @@
+[Unit]
+Description=Zookeeper Observer Presence for Hub1
+BindsTo=zkob1@%i.service
+After=zkob1@%i.service
+
+[Service]
+Restart=always
+RestartSec=30
+EnvironmentFile=/etc/environment
+Environment="ZOOKEEPER_CLIENT_PORT=21810"
+Environment="ZOOKEEPER_LEADER_PORT=28880"
+Environment="ZOOKEEPER_LEADER_ELECTION_PORT=38880"
+Environment="HUBID=1"
+ExecStartPre=/usr/bin/etcdctl set --ttl 60 /skydns/org/duffqiu/cluster/zkob-${HUBID}-%i '{"host":"${COREOS_PRIVATE_IPV4}","port":${ZOOKEEPER_CLIENT_PORT}}'
+ExecStartPre=/usr/bin/etcdctl set --ttl 60 /skydns/org/duffqiu/cluster/zkob${HUBID}/%i '{"host":"${COREOS_PRIVATE_IPV4}","port":${ZOOKEEPER_CLIENT_PORT}}'
+ExecStartPre=/usr/bin/etcdctl set --ttl 60 /skydns/org/duffqiu/cluster/_tcp/_zookeeper/${HUBID}-%i '{"host":"${COREOS_PRIVATE_IPV4}","port":${ZOOKEEPER_CLIENT_PORT}}'
+ExecStartPre=/usr/bin/etcdctl set --ttl 60 /skydns/org/duffqiu/cluster/_tcp/_zookeeper-leader/${HUBID}-%i '{"host":"${COREOS_PRIVATE_IPV4}","port":${ZOOKEEPER_LEADER_PORT}}'
+ExecStartPre=/usr/bin/etcdctl set --ttl 60 /skydns/org/duffqiu/cluster/_tcp/_zookeeper-election/${HUBID}-%i '{"host":"${COREOS_PRIVATE_IPV4}","port":${ZOOKEEPER_LEADER_ELECTION_PORT}}'
+ExecStart=/usr/bin/echo "Set zkob-${HUBID}-%i in skydns2"
+
+[X-Fleet]
+MachineOf=zkob1@%i.service
