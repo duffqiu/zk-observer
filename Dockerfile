@@ -5,9 +5,9 @@ MAINTAINER duffqiu@gmail.com
 RUN wget https://github.com/apache/zookeeper/archive/release-3.5.1-rc3.tar.gz
 RUN tar xzf release-3.5.1-rc3.tar.gz
 
-RUN mv zookeeper-release-3.5.1-rc3 zookeeper
+RUN mv zookeeper-release-3.5.1-rc3 zookeeper-3.5.1
 
-ADD conf/zoo.cfg.tmp /zookeeper/conf/zoo.cfg.tmp
+ADD conf/zoo.cfg.tmp /zookeeper-3.5.1/conf/zoo.cfg.tmp
 
 ADD startzk /usr/bin/startzk
 
