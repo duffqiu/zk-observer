@@ -6,9 +6,9 @@ cat >> .observer.config << EOF
 server.$ZK_ID=zkob-$ZK_HUB_ID-$ZK_SERVER_ID:28880:38880:observer
 EOF
 
-cp /zookeeper-3.6.0/conf/zoo.cfg.tmp /zookeeper-3.6.0/conf/zoo.cfg.tmp1
+cp /zookeeper-3.6.0/conf/zoo.cfg.tmpl /zookeeper-3.6.0/conf/zoo.cfg.tmp
 
-cat /zookeeper-3.6.0/conf/zoo.cfg.tmp1 | \
+cat /zookeeper-3.6.0/conf/zoo.cfg.tmp | \
   sed -e "/#<observer>/r .observer.config" > \
 /zookeeper-3.6.0/conf/zoo.cfg
 
