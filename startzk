@@ -3,17 +3,17 @@
 let ZK_ID=$ZK_SERVER_ID+$ZK_HUB_ID*100
 
 cat >> .observer.config << EOF
-  server.$ZK_ID=zookeeper-$ZK_HUB_ID-$ZK_SERVER_ID:28880:38880:observer
+server.$ZK_ID=zookeeper-$ZK_HUB_ID-$ZK_SERVER_ID:28880:38880:observer
 EOF
 
-cat /zookeeper-3.5.1/conf/zoo.cfg.tmp | \
+cat /zookeeper-3.6.0/conf/zoo.cfg.tmp | \
   sed -e "/#<observer>/r .observer.config" > \
-/zookeeper-3.5.1/conf/zoo.cfg
+/zookeeper-3.6.0/conf/zoo.cfg
 
 
 rm -rf .observer.config
 
 echo $ZK_ID > /zookeeper/data/myid
-echo "Starting up zookeeper server(v3.5.1 RC3): $ZK_ID"
+echo "Starting up zookeeper server(snapshot version 3.6.0 2015-4-28): $ZK_ID"
 
-/zookeeper-3.5.1/bin/zkServer.sh start-foreground
+/zookeeper-3.6.0/bin/zkServer.sh start-foreground

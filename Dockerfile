@@ -3,12 +3,13 @@ MAINTAINER duffqiu@gmail.com
 
 WORKDIR /
 
-RUN wget https://github.com/apache/zookeeper/archive/release-3.5.1-rc3.tar.gz
-RUN tar xzf release-3.5.1-rc3.tar.gz
 
-RUN mv zookeeper-release-3.5.1-rc3 zookeeper-3.5.1
+ADD zookeeper-3.6.0-SNAPSHOT.tar.gz /zk-tmp.tar.gz
+RUN mv /zk-tmp.tar.gz/zookeeper-3.6.0-SNAPSHOT /zookeeper-3.6.0
+RUN rm -rf /zk-tmp.tar.gz
 
-ADD conf/zoo.cfg.tmp /zookeeper-3.5.1/conf/zoo.cfg.tmp
+
+ADD conf/zoo.cfg.tmp /zookeeper-3.6.0/conf/zoo.cfg.tmp
 
 ADD startzk /usr/bin/startzk
 
@@ -20,6 +21,6 @@ ENV JAVA_HOME=/usr/java/jdk1.7.0_75 JRE_HOME=/usr/java/jdk1.7.0_75/jre PATH=$PAT
 
 #ENV JVMFLAGS=-Dsun.net.inetaddr.ttl=0
 
-WORKDIR /zookeeper-3.5.1
+WORKDIR /zookeeper-3.6.0
 
 ENTRYPOINT [ "/usr/bin/startzk" ]
