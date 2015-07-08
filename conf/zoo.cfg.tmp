@@ -50,3 +50,6 @@ server.3=zookeeper-3:2888:3888
 # read throughput the leader can be configured to not accept clients and focus
 # on coordination.
 #leaderServes=yes
+
+autopurge.snapRetainCount=10
+autopurge.purgeInterval=1

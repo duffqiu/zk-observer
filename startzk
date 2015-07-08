@@ -3,10 +3,12 @@
 let ZK_ID=$ZK_SERVER_ID+$ZK_HUB_ID*100
 
 cat >> .observer.config << EOF
-server.$ZK_ID=zookeeper-$ZK_HUB_ID-$ZK_SERVER_ID:28880:38880:observer
+server.$ZK_ID=zkob-$ZK_HUB_ID-$ZK_SERVER_ID:28880:38880:observer
 EOF
 
-cat /zookeeper-3.6.0/conf/zoo.cfg.tmp | \
+cp /zookeeper-3.6.0/conf/zoo.cfg.tmp /zookeeper-3.6.0/conf/zoo.cfg.tmp1
+
+cat /zookeeper-3.6.0/conf/zoo.cfg.tmp1 | \
   sed -e "/#<observer>/r .observer.config" > \
 /zookeeper-3.6.0/conf/zoo.cfg
 
