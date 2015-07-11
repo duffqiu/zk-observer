@@ -16,7 +16,7 @@ ExecStartPre=-/usr/bin/docker pull duffqiu/zk-observer:latest
 ExecStart=/usr/bin/docker run  \
                               --name zkob-${HUBID}-%i \
                               -e ZK_SERVER_ID=%i \
-                              -e ZKZK_HUB_ID=${HUBID} \
+                              -e ZK_HUB_ID=${HUBID} \
                               --hostname zkob-${HUBID}-%i.${DOMAIN_NAME} \
                               --dns-search ${DOMAIN_NAME} \
                               --dns ${COREOS_PRIVATE_IPV4} \
